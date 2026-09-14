@@ -8,6 +8,7 @@ const fridgeRoutes = require("./routes/fridge.routes");
 const uploadRoutes = require("./routes/upload.routes");
 const nvidiaTestRoutes = require("./routes/nvidia-test.routes");
 const app = express();
+const recipeStreamRoutes = require("./routes/recipe-stream.routes");
 
 app.use(cors());
 app.use(express.json({ limit: "10mb" }));
@@ -31,6 +32,7 @@ app.use("/api/recipes", recipeRoutes);
 app.use("/api/fridge", fridgeRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/nvidia-test", nvidiaTestRoutes);
+app.use("/api/recipes/stream", recipeStreamRoutes);
 
 app.use((err, req, res, next) => {
   console.error(err);
