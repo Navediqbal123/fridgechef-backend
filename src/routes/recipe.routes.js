@@ -1,34 +1,35 @@
 const express = require("express");
 const router = express.Router();
 
-// Generate recipe from ingredients
+const { generateRecipe } = require("../services/nvidia.service");
+
 router.post("/generate", async (req, res) => {
   try {
     const { ingredients, preferences } = req.body;
 
-    if (!ingredients || !Array.isArray(ingredients) || ingredients.length === 0) {
+    if (!Array.isArray(ingredients) || ingredients.length === 0) {
       return res.status(400).json({
         success: false,
         message: "Please provide at least one ingredient."
       });
     }
 
-    // NVIDIA AI integration will be connected here
-    // in the next step.
+    const result = await generateRecipe(
+      ingredients,
+      preferences || {}
+    );
 
     res.json({
       success: true,
-      message: "Recipe request received.",
-      ingredients,
-      preferences: preferences || {},
-      recipes: []
+      ...result
     });
+
   } catch (error) {
     console.error("Recipe generation error:", error);
 
     res.status(500).json({
       success: false,
-      message: "Failed to generate recipes."
+      message: error.message || "Failed to generate recipes."
     });
   }
 });
