@@ -3,6 +3,8 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 
+const recipeRoutes = require("./routes/recipe.routes");
+
 const app = express();
 
 app.use(cors());
@@ -22,6 +24,8 @@ app.get("/api/health", (req, res) => {
     status: "healthy"
   });
 });
+
+app.use("/api/recipes", recipeRoutes);
 
 const PORT = process.env.PORT || 10000;
 
