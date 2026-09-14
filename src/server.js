@@ -4,6 +4,8 @@ const express = require("express");
 const cors = require("cors");
 
 const recipeRoutes = require("./routes/recipe.routes");
+const fridgeRoutes = require("./routes/fridge.routes");
+const uploadRoutes = require("./routes/upload.routes");
 
 const app = express();
 
@@ -26,6 +28,17 @@ app.get("/api/health", (req, res) => {
 });
 
 app.use("/api/recipes", recipeRoutes);
+app.use("/api/fridge", fridgeRoutes);
+app.use("/api/upload", uploadRoutes);
+
+app.use((err, req, res, next) => {
+  console.error(err);
+
+  res.status(500).json({
+    success: false,
+    message: err.message || "Internal server error"
+  });
+});
 
 const PORT = process.env.PORT || 10000;
 
