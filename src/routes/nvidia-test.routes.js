@@ -1,13 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
-const NVIDIA_BASE_URL =
-  process.env.NVIDIA_BASE_URL ||
-  "https://integrate.api.nvidia.com/v1";
-
-const NVIDIA_MODEL =
-  process.env.NVIDIA_MODEL ||
-  "nvidia/nemotron-3.5-lightning-30b-a3b";
+const NVIDIA_BASE_URL = "https://integrate.api.nvidia.com/v1";
+const NVIDIA_MODEL = "openai/gpt-oss-20b";
 
 router.get("/test", async (req, res) => {
   console.log("🧪 NVIDIA TEST STARTED");
@@ -25,7 +20,7 @@ router.get("/test", async (req, res) => {
 
   const timeout = setTimeout(() => {
     controller.abort();
-  }, 45000);
+  }, 60000);
 
   try {
     const response = await fetch(
@@ -84,7 +79,8 @@ router.get("/test", async (req, res) => {
       success: true,
       message: "NVIDIA connection working",
       model: NVIDIA_MODEL,
-      response: data?.choices?.[0]?.message?.content || null
+      response:
+        data?.choices?.[0]?.message?.content || null
     });
 
   } catch (error) {
@@ -93,7 +89,7 @@ router.get("/test", async (req, res) => {
     if (error.name === "AbortError") {
       return res.status(504).json({
         success: false,
-        message: "NVIDIA API timed out after 45 seconds"
+        message: "NVIDIA API timed out after 60 seconds"
       });
     }
 
