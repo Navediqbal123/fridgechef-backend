@@ -6,7 +6,7 @@ const cors = require("cors");
 const recipeRoutes = require("./routes/recipe.routes");
 const fridgeRoutes = require("./routes/fridge.routes");
 const uploadRoutes = require("./routes/upload.routes");
-
+const nvidiaTestRoutes = require("./routes/nvidia-test.routes");
 const app = express();
 
 app.use(cors());
@@ -30,6 +30,7 @@ app.get("/api/health", (req, res) => {
 app.use("/api/recipes", recipeRoutes);
 app.use("/api/fridge", fridgeRoutes);
 app.use("/api/upload", uploadRoutes);
+app.use("/api/nvidia-test", nvidiaTestRoutes);
 
 app.use((err, req, res, next) => {
   console.error(err);
